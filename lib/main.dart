@@ -2,9 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'features/onboarding_screens/screen_1.dart';
+import 'features/onboarding_screens/onboarding_page.dart';
+
+import 'dart:async';
+import 'dart:ui';
 
 void main() {
+  // Global Error Handling
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+    // You can also log error to a service like Sentry or Firebase Crashlytics here
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    debugPrint("Global Async Error: $error");
+    // Prevent app from crashing
+    return true; 
+  };
+
   runApp(const MyApp());
 }
 
@@ -23,7 +38,7 @@ class MyApp extends StatelessWidget {
 
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        home: Screen1(),
+        home: OnboardingPage(),
       ),
     );
   }

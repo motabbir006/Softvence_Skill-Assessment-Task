@@ -22,7 +22,7 @@ class _LocationPageState extends State<LocationPage> {
         padding:  EdgeInsets.symmetric(horizontal:17.r,vertical: 20.h),
         child: SingleChildScrollView(
           child: Column(
-            spacing: 10,
+            spacing: 10.h,
             children: [
               SizedBox(height: 60.h,),
               Text("Welcome! Your Smart Travel Alarm",style:
@@ -37,9 +37,19 @@ class _LocationPageState extends State<LocationPage> {
               SizedBox(height: 50.h,),
               ElevatedButton(
                   onPressed: () async {
-
                     Position? pos = await getCurrentLocation();
                     print("Lat: ${pos?.latitude}, Lng: ${pos?.longitude}");
+                    if (pos != null) {
+                      Get.back(result: "Lat: ${pos.latitude.toStringAsFixed(4)}, Lng: ${pos.longitude.toStringAsFixed(4)}");
+                    } else {
+                      Get.snackbar(
+                        "Error", 
+                        "Could not fetch location. Please enable location services and permissions.",
+                        backgroundColor: Colors.red.withOpacity(0.8),
+                        colorText: Colors.white,
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    }
                   },
 
                   style: ButtonStyle(
@@ -47,20 +57,18 @@ class _LocationPageState extends State<LocationPage> {
                       side: WidgetStatePropertyAll(BorderSide(color: Colors.white)),
                       backgroundColor:WidgetStatePropertyAll( Colors.transparent),
                       shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                          borderRadius: BorderRadiusGeometry.circular(69.r)
+                          borderRadius: BorderRadius.circular(30.r)
                       ))
-
-
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Use Current Location",style: TextStyle(color: Colors.white,fontSize: 16.sp,fontWeight: FontWeight.bold),),
-                      SizedBox(width: 5.w,),
-                      ImageIcon(AssetImage("assets/images/locaIcon.png",),size: 24.r,color: Colors.white,)
+                      SizedBox(width: 8.w,),
+                      Icon(Icons.location_on_outlined, color: Colors.white, size: 24.sp),
                     ],
                   )),
-              SizedBox(height: 5.w,),
+              SizedBox(height: 16.h,),
               ElevatedButton(
                   onPressed: (){
                     Get.to(()=>HomePage());
@@ -69,10 +77,8 @@ class _LocationPageState extends State<LocationPage> {
                       fixedSize: WidgetStatePropertyAll(Size(328.w, 56.h)),
                       backgroundColor: WidgetStatePropertyAll(Color(0xff5200FF)),
                       shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(69.r)
+                          borderRadius: BorderRadius.circular(30.r)
                       ))
-
-
                   ),
                   child: Text("Home",style: TextStyle(color: Colors.white,fontSize: 16.sp,fontWeight: FontWeight.bold),))
             ],
